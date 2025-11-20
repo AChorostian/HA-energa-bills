@@ -1,0 +1,248 @@
+type: custom:tabbed-card
+tabs:
+  - attributes:
+      label: Ogólne
+    card:
+      type: custom:flex-table-card
+      title: Odczyty
+      display_footer: true
+      entities:
+        include: sensor.energa_odczyty
+      columns:
+        - data: data
+          name: Data od
+          modify: x.Data_od
+        - data: data
+          name: Data do
+          modify: x.Data_do
+        - data: data
+          name: Pobranie saldo [kWh]
+          modify: x.pobranie_saldo + " kWh"
+          footer_type: sum
+        - data: data
+          name: Oddanie saldo [kWh]
+          modify: x.oddanie_saldo + " kWh"
+          footer_type: sum
+      css:
+        "#tfootcol2": "background-color: #BB1010"
+        "#tfootcol3": "background-color: #10BB10"
+        tfoot *: "border-style: dotted none solid none;"
+  - attributes:
+      label: Odczyty z licznika
+    card:
+      type: custom:flex-table-card
+      title: Odczyty
+      display_footer: true
+      entities:
+        include: sensor.energa_odczyty
+      columns:
+        - data: data
+          name: Data od
+          modify: x.Data_od
+        - data: data
+          name: Data do
+          modify: x.Data_do
+        - data: data
+          name: Pobranie od [kWh]
+          modify: x.pobranie_od + " kWh"
+        - data: data
+          name: Pobranie do [kWh]
+          modify: x.pobranie_do + " kWh"
+        - data: data
+          name: Pobranie saldo [kWh]
+          modify: x.pobranie_saldo + " kWh"
+          footer_type: sum
+        - data: data
+          name: Oddanie od [kWh]
+          modify: x.oddanie_od + " kWh"
+        - data: data
+          name: Oddanie do [kWh]
+          modify: x.oddanie_do + " kWh"
+        - data: data
+          name: Oddanie saldo [kWh]
+          modify: x.oddanie_saldo + " kWh"
+          footer_type: sum
+      css:
+        "#tfootcol4": "background-color: #BB1010"
+        "#tfootcol7": "background-color: #10BB10"
+        tfoot *: "border-style: dotted none solid none;"
+  - attributes:
+      label: Sprzedaż
+    card:
+      type: custom:flex-table-card
+      title: Sprzedaż i Dystrybucja
+      display_footer: true
+      entities:
+        include: sensor.energa_odczyty
+      columns:
+        - data: data
+          name: <span title="Początek okresu rozliczeniowego">Data od</span>
+          modify: x.Data_od
+        - data: data
+          name: Data do
+          modify: x.Data_do
+        - data: data
+          name: Pobranie saldo [kWh]
+          modify: x.pobranie_saldo + " kWh"
+          footer_type: sum
+        - data: data
+          name: Średnia cena
+          modify: (x.sprzedaz.toFixed(2)/x.pobranie_saldo).toFixed(2)
+        - data: data
+          name: Sprzedaz
+          modify: x.sprzedaz.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: S akcyza
+          modify: x.sprzedaz_akcyza.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: S suma
+          modify: (x.sprzedaz + x.sprzedaz_akcyza).toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+  - attributes:
+      label: Dystrybucja
+    card:
+      type: custom:flex-table-card
+      title: Sprzedaż i Dystrybucja
+      display_footer: true
+      entities:
+        include: sensor.energa_odczyty
+      columns:
+        - data: data
+          name: <span title="Początek okresu rozliczeniowego">Data od</span>
+          modify: x.Data_od
+        - data: data
+          name: Data do
+          modify: x.Data_do
+        - data: data
+          name: >
+            <span title="Opłata abonamentowa w Energa wynosi 0,4993 zł brutto
+            miesięcznie dla taryfy G11/G12, ale może być inna w zależności od
+            grupy taryfowej, okresu rozliczeniowego i sposobu odczytu licznika.
+            Opłata ta pokrywa koszty związane z odczytem i kontrolą licznika. 
+            Szczegóły opłaty abonamentowej Stawka dla taryfy G11/G12: 0,4993 zł
+            brutto miesięcznie (dane z 2025 r.).  Wysokość zależy od: Grupy
+            taryfowej: np. taryfa G1x lub C1x.  Okresu rozliczeniowego:
+            jednomiesięczny lub dwumiesięczny.  Sposobu odczytu licznika: zdalny
+            lub fizyczny.  Cel opłaty: Pokrywa koszty związane z odczytem i
+            kontrolą licznika.  Sposób naliczania: Jest naliczana w pełnej
+            wysokości za każdy rozpoczęty miesiąc umowy.">DS abonamentowa</span>
+          modify: x.dystrybucja_abonamentowa.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DS sieciowa_stala
+          modify: x.dystrybucja_sieciowa_stala.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DS przejsciowa
+          modify: x.dystrybucja_przejsciowa.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: >
+            <span title="Opłata mocowa to składnik rachunku za prąd, który jest
+            naliczany
+
+            od 1 lipca 2025 roku. Służy do finansowania rynku mocy, a jej
+
+            celem jest zapewnienie bezpieczeństwa energetycznego Polski,
+
+            zwłaszcza w okresach szczytowego poboru energii. Wysokość opłaty
+
+            zależy od rocznego zużycia energii i jest pobierana miesięcznie. 
+
+            Opłata mocowa w 2025 roku dla gospodarstw domowych
+
+
+            <500 kWh/rok: 3,52 zł brutto miesięcznie
+
+
+            500–1200 kWh/rok: 8,44 zł brutto miesięcznie
+
+
+            1200–2800 kWh/rok: 14,07 zł brutto miesięcznie
+
+
+            >2800 kWh/rok: 16,01 zł netto miesięcznie ">DS mocowa</span>
+          modify: x.dystrybucja_mocowa.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DS Suma
+          modify: >-
+            (x.dystrybucja_abonamentowa + x.dystrybucja_sieciowa_stala +
+            x.dystrybucja_przejsciowa + x.dystrybucja_mocowa).toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DZ sieciowa_zmienna
+          modify: x.dystrybucja_sieciowa_zmienna.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DZ jakosciowa
+          modify: x.dystrybucja_jakosciowa.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DZ OZE
+          modify: x.dystrybucja_OZE.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DZ kogeneracyjna
+          modify: x.dystrybucja_kogeneracyjna.toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+        - data: data
+          name: DZ Suma
+          modify: >-
+            (x.dystrybucja_sieciowa_zmienna + x.dystrybucja_jakosciowa +
+            x.dystrybucja_OZE + x.dystrybucja_kogeneracyjna).toFixed(2)
+          footer_type: sum
+          footer_modify: x.toFixed(2)
+  - attributes:
+      label: Saldo i magazyn
+    card:
+      type: custom:mod-card
+      card_mod:
+        style:
+          hui-horizontal-stack-card $: |
+            ha-card {
+              background: red;
+            }
+      card:
+        type: horizontal-stack
+        cards:
+          - type: custom:flex-table-card
+            title: Sprzedaż i Dystrybucja
+            display_footer: true
+            entities:
+              include: sensor.energa_odczyty
+            columns:
+              - data: data
+                name: Data od
+                modify: x.Data_od
+              - data: data
+                name: Data do
+                modify: x.Data_do
+              - data: data
+                name: depozyt_wprowadzono
+                modify: x.depozyt_wprowadzono
+                footer_type: sum
+              - data: data
+                name: depozyt_wprowadzenie_cena
+                modify: x.depozyt_wprowadzenie_cena
+              - data: data
+                name: depozyt_pobrano
+                modify: x.depozyt_pobrano
+                footer_type: sum
+              - data: data
+                name: depozyt_razem
+                modify: x.depozyt_razem
