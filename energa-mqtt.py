@@ -84,7 +84,7 @@ def init_row(filename: str) -> dict:
         "pobranie kWh": 0.0,
         "pobranie saldo": 0,
         "oddanie od": 0.0,
-        "oddanie to": 0.0,
+        "oddanie do": 0.0,
         "oddanie kWh": 0.0,
         "oddanie saldo": 0,
         "sprzedaz": 0.0,
